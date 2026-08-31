@@ -656,9 +656,11 @@ Aguardo o retorno para verificar a disponibilidade de horários.`;
             if (this.banner) {
                 if (isAccepted) {
                     this.banner.classList.add('hidden');
+                    document.body.classList.remove('has-lgpd-banner');
                 } else {
                     setTimeout(() => {
                         this.banner.classList.remove('hidden');
+                        document.body.classList.add('has-lgpd-banner');
                     }, 800);
                 }
             }
@@ -668,12 +670,14 @@ Aguardo o retorno para verificar a disponibilidade de horários.`;
                 this.acceptBtn.addEventListener('click', () => {
                     localStorage.setItem(this.STORAGE_KEY, 'true');
                     if (this.banner) this.banner.classList.add('hidden');
+                    document.body.classList.remove('has-lgpd-banner');
                 });
             }
 
             if (this.dismissBtn) {
                 this.dismissBtn.addEventListener('click', () => {
                     if (this.banner) this.banner.classList.add('hidden');
+                    document.body.classList.remove('has-lgpd-banner');
                 });
             }
 
@@ -694,6 +698,7 @@ Aguardo o retorno para verificar a disponibilidade de horários.`;
                 this.agreeBtn.addEventListener('click', () => {
                     localStorage.setItem(this.STORAGE_KEY, 'true');
                     if (this.banner) this.banner.classList.add('hidden');
+                    document.body.classList.remove('has-lgpd-banner');
                     this.closeModal();
                 });
             }

@@ -5601,7 +5601,7 @@ a {
 @media (max-width: 768px) {
     .acolhimento-showcase-card {
         grid-template-columns: 1fr;
-        padding: 2rem 1.4rem;
+        padding: 2.2rem 1.4rem;
         gap: 2rem;
     }
 
@@ -5614,27 +5614,60 @@ a {
         width: 100%;
         justify-content: center;
     }
+}
 
+@media (max-width: 640px) {
+    /* ── Posicionamento & Botão Circular no Mobile ── */
     .acolhimento-agent-wrapper {
-        bottom: 16px;
-        right: 16px;
+        bottom: 20px;
+        right: 20px;
+        gap: 0;
+        transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 9999;
+    }
+
+    /* Offset vertical quando o banner LGPD está ativo */
+    body.has-lgpd-banner .acolhimento-agent-wrapper {
+        bottom: calc(150px + env(safe-area-inset-bottom, 0px));
     }
 
     .acolhimento-trigger-btn {
-        padding: 8px 16px 8px 10px;
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(212, 175, 55, 0.25);
     }
 
     .trigger-label {
-        font-size: 0.82rem;
+        display: none !important;
     }
 
     .trigger-icon-box {
-        width: 38px;
-        height: 38px;
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .trigger-wa-icon {
-        font-size: 1.2rem;
+        font-size: 1.6rem;
+    }
+
+    .trigger-pulse-glow {
+        border-radius: 50%;
+    }
+
+    /* Oculta balão de chamada no mobile para desobstruir a tela */
+    .acolhimento-tooltip {
+        display: none !important;
     }
 }
 
@@ -5666,10 +5699,6 @@ a {
         position: sticky;
         bottom: 0;
         z-index: 10;
-    }
-
-    .acolhimento-tooltip {
-        max-width: calc(100vw - 32px);
     }
 }
 
@@ -6135,12 +6164,67 @@ a {
 /* ── Responsividade para Banner e Modal LGPD ── */
 @media (max-width: 640px) {
     .lgpd-consent-banner {
-        bottom: 16px;
-        left: 16px;
-        right: 16px;
-        width: auto;
-        max-width: none;
-        padding: 14px 16px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+        border: none;
+        border-top: 1px solid rgba(212, 175, 55, 0.35);
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)) 16px;
+        gap: 8px;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.85);
+        background: rgba(18, 12, 10, 0.98);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    .lgpd-banner-header {
+        gap: 8px;
+    }
+
+    .lgpd-icon-badge {
+        width: 26px;
+        height: 26px;
+        font-size: 0.78rem;
+    }
+
+    .lgpd-title {
+        font-size: 0.82rem;
+    }
+
+    .lgpd-subtitle {
+        font-size: 0.68rem;
+    }
+
+    .lgpd-banner-text {
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+
+    .lgpd-links-row {
+        font-size: 0.72rem;
+        gap: 6px;
+    }
+
+    .lgpd-actions-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 2px;
+    }
+
+    .lgpd-accept-btn {
+        flex: 1;
+        font-size: 0.78rem !important;
+        padding: 0.55rem 0.9rem !important;
+    }
+
+    .lgpd-custom-btn {
+        font-size: 0.75rem;
+        padding: 0.55rem 0.8rem;
     }
 
     .privacy-modal-backdrop {
