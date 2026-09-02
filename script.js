@@ -215,7 +215,316 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. AGENTE SIMULADO DE ACOLHIMENTO E CAPTAÇÃO (ALTO PADRÃO / PSICANÁLISE)
+    // 7. AGENTE CLÍNICO DE AUTOAVALIAÇÃO & RASTREIO EMOCIONAL (DRA. FABÍOLA REIS)
+    // 7. AGENTE CLÍNICO DE AUTOAVALIAÇÃO & RASTREIO EMOCIONAL (DRA. FABÍOLA REIS)
+    const CLINICAL_TRACK_GROUPS = [
+        {
+            title: 'Queixas Clínicas Gerais',
+            tracks: [
+                {
+                    id: 'ansiedade',
+                    name: 'Ansiedade & Angústia',
+                    shortName: 'Ansiedade & Angústia',
+                    icon: 'fa-cloud-bolt',
+                    questions: [
+                        {
+                            text: 'Vivencia sintomas físicos de alerta (aperto no peito, tensão muscular, nó na garganta ou insônia)?',
+                            signal: 'Vivência de sintomas físicos de alerta (tensão muscular, aperto no peito, insônia)'
+                        },
+                        {
+                            text: 'Preocupa-se excessivamente com cenários futuros e situações fora do seu controle direto?',
+                            signal: 'Preocupação excessiva e ruminação sobre cenários futuros'
+                        },
+                        {
+                            text: 'Sente dificuldade em desacelerar a mente, mesmo em períodos de descanso programado?',
+                            signal: 'Dificuldade em desacelerar a mente no descanso'
+                        },
+                        {
+                            text: 'Tem crises repentinas de sobrecarga emocional ou sensação constante de perigo iminente?',
+                            signal: 'Crises de sobrecarga emocional e sensação de perigo iminente'
+                        }
+                    ]
+                },
+                {
+                    id: 'relacionamentos',
+                    name: 'Conflitos & Vínculos Afetivos',
+                    shortName: 'Conflitos & Vínculos Afetivos',
+                    icon: 'fa-heart-crack',
+                    questions: [
+                        {
+                            text: 'Encontra dificuldade recorrente em estabelecer limites saudáveis nas suas relações?',
+                            signal: 'Dificuldade recorrente em estabelecer limites saudáveis nas relações'
+                        },
+                        {
+                            text: 'Sente desgaste frequente por assumir excesso de responsabilidades emocionais de terceiros?',
+                            signal: 'Desgaste por assumir excesso de responsabilidades emocionais de terceiros'
+                        },
+                        {
+                            text: 'Evita conversas difíceis ou confrontos por medo de rejeição ou perda do vínculo?',
+                            signal: 'Evitação de confrontos por medo de rejeição ou perda do vínculo'
+                        },
+                        {
+                            text: 'Sente que suas necessidades emocionais raramente são compreendidas ou atendidas?',
+                            signal: 'Sensação de que necessidades emocionais raramente são atendidas'
+                        }
+                    ]
+                },
+                {
+                    id: 'autoconhecimento',
+                    name: 'Autoconhecimento & Transição',
+                    shortName: 'Autoconhecimento & Transição',
+                    icon: 'fa-compass',
+                    questions: [
+                        {
+                            text: 'Encontra-se em momento de indecisão profunda sobre carreira, propósito ou projetos de vida?',
+                            signal: 'Indecisão profunda sobre carreira, propósito ou projetos de vida'
+                        },
+                        {
+                            text: 'Percebe padrões e escolhas repetitivas que sabotam seu crescimento pessoal?',
+                            signal: 'Padrões e escolhas repetitivas que sabotam o crescimento pessoal'
+                        },
+                        {
+                            text: 'Sente desconexão entre quem você é internamente e a persona que apresenta socialmente?',
+                            signal: 'Desconexão entre identidade interna e persona social'
+                        },
+                        {
+                            text: 'Busca clareza sobre suas potencialidades para iniciar um novo ciclo com segurança?',
+                            signal: 'Busca de clareza sobre potencialidades para iniciar um novo ciclo'
+                        }
+                    ]
+                },
+                {
+                    id: 'luto',
+                    name: 'Luto, Traumas & Perdas',
+                    shortName: 'Luto, Traumas & Perdas',
+                    icon: 'fa-leaf',
+                    questions: [
+                        {
+                            text: 'Carrega dores ou lembranças do passado que ainda provocam impacto emocional no presente?',
+                            signal: 'Dores e lembranças do passado com impacto emocional no presente'
+                        },
+                        {
+                            text: 'Enfrenta dificuldade persistente em aceitar e processar o encerramento de vínculos ou fases?',
+                            signal: 'Dificuldade persistente em aceitar e processar o encerramento de vínculos ou fases'
+                        },
+                        {
+                            text: 'Sente que uma perda significativa alterou seu ânimo e sua capacidade de planejar o futuro?',
+                            signal: 'Perda significativa que alterou o ânimo e projetos futuros'
+                        },
+                        {
+                            text: 'Vivencia bloqueios emocionais decorrentes de experiências dolorosas vividas na infância/juventude?',
+                            signal: 'Bloqueios emocionais decorrentes de traumas do passado'
+                        }
+                    ]
+                },
+                {
+                    id: 'outras',
+                    name: 'Outras Questões Pessoais',
+                    shortName: 'Outras Questões Pessoais',
+                    icon: 'fa-comments',
+                    questions: [
+                        {
+                            text: 'Sente uma sensação difusa de vazio ou insatisfação difícil de definir em palavras?',
+                            signal: 'Sensação difusa de vazio ou insatisfação difícil de definir'
+                        },
+                        {
+                            text: 'Percebe que o estresse do dia a dia tem drenado sua energia física e emocional?',
+                            signal: 'Estresse cotidiano com drenagem de energia física e emocional'
+                        },
+                        {
+                            text: 'Sente necessidade urgente de um espaço confidencial e neutro de escuta clínica?',
+                            signal: 'Necessidade urgente de espaço confidencial e neutro de escuta clínica'
+                        },
+                        {
+                            text: 'Tem dificuldade de compreender a origem das suas angústias atuais?',
+                            signal: 'Dificuldade de compreender a origem das angústias atuais'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            title: 'Perfis & Neurodivergências',
+            tracks: [
+                {
+                    id: 'superdotacao',
+                    name: 'Superdotação & Altas Habilidades',
+                    shortName: 'Superdotação & Altas Habilidades',
+                    icon: 'fa-lightbulb',
+                    questions: [
+                        {
+                            text: 'Vivencia uma sensação profunda e histórica de não pertencimento nos círculos comuns?',
+                            signal: 'Sensação profunda e histórica de não pertencimento social'
+                        },
+                        {
+                            text: 'Sua mente processa estímulos e informações com velocidade que gera tédio em ambientes rotineiros?',
+                            signal: 'Processamento mental acelerado com tédio em rotinas simples'
+                        },
+                        {
+                            text: 'Possui curiosidade intelectual intensa e necessidade frequente de mergulhar em temas complexos?',
+                            signal: 'Curiosidade intelectual intensa e necessidade de temas complexos'
+                        },
+                        {
+                            text: 'Sente hipersensibilidade emocional, sensorial ou moral diante de incongruências do cotidiano?',
+                            signal: 'Hipersensibilidade emocional, sensorial ou moral'
+                        }
+                    ]
+                },
+                {
+                    id: 'tdah',
+                    name: 'TDAH (Foco & Procrastinação)',
+                    shortName: 'TDAH (Foco & Procrastinação)',
+                    icon: 'fa-brain',
+                    questions: [
+                        {
+                            text: 'Apresenta dificuldade persistente para iniciar, manter ou concluir tarefas burocráticas?',
+                            signal: 'Dificuldade persistente para iniciar, manter ou concluir tarefas burocráticas'
+                        },
+                        {
+                            text: 'Vivencia dispersão constante, saltando com frequência de um pensamento a outro?',
+                            signal: 'Dispersão constante, saltando de um pensamento a outro'
+                        },
+                        {
+                            text: 'Sofre com esquecimentos crônicos de compromissos, prazos ou perda diária de pertences?',
+                            signal: 'Esquecimentos crônicos de compromissos, prazos ou perda de pertences'
+                        },
+                        {
+                            text: 'Entra em episódios de hiperfoco intenso em temas de interesse, perdendo a noção do tempo?',
+                            signal: 'Episódios de hiperfoco intenso com perda da noção do tempo'
+                        }
+                    ]
+                },
+                {
+                    id: 'tea',
+                    name: 'Traços do Espectro (TEA)',
+                    shortName: 'Traços do Espectro (TEA)',
+                    icon: 'fa-puzzle-piece',
+                    questions: [
+                        {
+                            text: 'Ambientes com excesso de estímulos (luzes fortes, barulhos, aglomerações) causam exaustão mental?',
+                            signal: 'Exaustão mental por excesso de estímulos (luzes, sons, aglomerações)'
+                        },
+                        {
+                            text: 'Prefere rotinas previsíveis e sente desconforto ou ansiedade acentuada diante de mudanças bruscas?',
+                            signal: 'Preferência por rotinas previsíveis e desconforto diante de mudanças bruscas'
+                        },
+                        {
+                            text: 'Exige esforço consciente para decodificar regras sociais não explícitas em conversas de grupo?',
+                            signal: 'Esforço consciente para decodificar regras sociais não explícitas'
+                        },
+                        {
+                            text: 'Apresenta necessidade acentuada de períodos de recolhimento e silêncio após interações sociais?',
+                            signal: 'Necessidade acentuada de períodos de recolhimento e silêncio pós-social'
+                        }
+                    ]
+                },
+                {
+                    id: 'borderline',
+                    name: 'Instabilidade & Borderline',
+                    shortName: 'Instabilidade & Borderline (TPB)',
+                    icon: 'fa-masks-theater',
+                    questions: [
+                        {
+                            text: 'Vivencia oscilações bruscas e intensas de humor ao longo do mesmo dia após contratempos?',
+                            signal: 'Oscilações bruscas e intensas de humor ao longo do dia após contratempos'
+                        },
+                        {
+                            text: 'Sente um medo profundo e paralisante de rejeição ou de ser abandonado por pessoas próximas?',
+                            signal: 'Medo profundo e paralisante de rejeição ou abandono'
+                        },
+                        {
+                            text: 'Alterna entre a idealização máxima de alguém e uma decepção profunda em curto intervalo?',
+                            signal: 'Alternância rápida entre idealização máxima e decepção profunda'
+                        },
+                        {
+                            text: 'Toma atitudes impulsivas quando experimenta sensações intensas de vazio ou dor existencial?',
+                            signal: 'Atitudes impulsivas diante de sensações de vazio ou dor existencial'
+                        }
+                    ]
+                },
+                {
+                    id: 'bipolaridade',
+                    name: 'Ciclos de Humor & Bipolaridade',
+                    shortName: 'Ciclos de Humor & Bipolaridade',
+                    icon: 'fa-wave-square',
+                    questions: [
+                        {
+                            text: 'Alterna entre períodos de profunda desmotivação/apatia e fases de ânimo excessivo e hiperatividade?',
+                            signal: 'Alternância entre fases de apatia e episódios de hiperatividade'
+                        },
+                        {
+                            text: 'Durante as fases de alta energia, percebe redução drástica da necessidade de sono sem sentir cansaço?',
+                            signal: 'Redução drástica da necessidade de sono sem sentir cansaço'
+                        },
+                        {
+                            text: 'Realiza planos grandiosos ou impulsivos durante episódios de exaltação mental?',
+                            signal: 'Planos grandiosos ou impulsivos em fases de exaltação mental'
+                        },
+                        {
+                            text: 'Sofre com quedas bruscas de energia que paralisam compromissos previamente assumidos?',
+                            signal: 'Quedas bruscas de energia que paralisam compromissos assumidos'
+                        }
+                    ]
+                },
+                {
+                    id: 'narcisismo',
+                    name: 'Traços Narcísicos / Relações Tóxicas',
+                    shortName: 'Traços Narcísicos / Relações Tóxicas',
+                    icon: 'fa-crown',
+                    questions: [
+                        {
+                            text: 'Vivencia extrema sensibilidade a críticas, reagindo com ressentimento ou afastamento defensivo?',
+                            signal: 'Extrema sensibilidade a críticas com ressentimento ou afastamento defensivo'
+                        },
+                        {
+                            text: 'Sente dificuldade contínua em validar a perspectiva do outro quando ela diverge da sua?',
+                            signal: 'Dificuldade contínua em validar perspectivas divergentes da sua'
+                        },
+                        {
+                            text: 'Encontra-se preso a uma dinâmica relacional onde se sente manipulado ou desvalorizado?',
+                            signal: 'Vivência de dinâmica relacional de manipulação ou desvalorização'
+                        },
+                        {
+                            text: 'Exige padrão excessivo de perfeccionismo e reconhecimento em suas realizações?',
+                            signal: 'Padrão excessivo de perfeccionismo e busca de reconhecimento'
+                        }
+                    ]
+                },
+                {
+                    id: 'histrionica',
+                    name: 'Expressividade & Histriônica',
+                    shortName: 'Expressividade & Traços Histriônicos',
+                    icon: 'fa-theater-masks',
+                    questions: [
+                        {
+                            text: 'Sente desconforto evidente quando não ocupa o centro da atenção ou validação do grupo?',
+                            signal: 'Desconforto evidente quando não ocupa o centro da atenção ou validação'
+                        },
+                        {
+                            text: 'Suas reações emocionais são frequentemente consideradas intensas ou dramáticas pelos outros?',
+                            signal: 'Reações emocionais consideradas intensas ou dramáticas'
+                        },
+                        {
+                            text: 'Possui facilidade em ser influenciado pelo ambiente externo e pelas opiniões de terceiros?',
+                            signal: 'Facilidade em ser influenciado pelo ambiente e opiniões de terceiros'
+                        },
+                        {
+                            text: 'Tende a considerar as relações interpessoais muito mais íntimas do que de fato são?',
+                            signal: 'Tendência a considerar as relações interpessoais mais íntimas do que de fato são'
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const LIKERT_OPTIONS = [
+        { label: 'Raramente', score: 1, icon: 'fa-regular fa-circle' },
+        { label: 'Às Vezes', score: 2, icon: 'fa-regular fa-circle-dot' },
+        { label: 'Com Frequência', score: 3, icon: 'fa-solid fa-circle-dot' },
+        { label: 'Quase Sempre', score: 4, icon: 'fa-solid fa-circle-check' }
+    ];
+
     class AcolhimentoAgent {
         constructor() {
             this.WHATSAPP_PHONE = '5524920003702';
@@ -236,9 +545,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 hasStarted: false,
                 userData: {
                     name: '',
-                    reason: '',
-                    modality: '',
-                    timeSlot: ''
+                    trackKey: '',
+                    trackName: '',
+                    trackShortName: '',
+                    answers: [], // Array de { questionIndex, questionText, score, label, signal }
+                    totalScore: 0
                 }
             };
 
@@ -314,7 +625,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         reset() {
             this.state.currentStep = 1;
-            this.state.userData = { name: '', reason: '', modality: '', timeSlot: '' };
+            this.state.userData = {
+                name: '',
+                trackKey: '',
+                trackName: '',
+                trackShortName: '',
+                answers: [],
+                totalScore: 0
+            };
             this.clearMessages();
             this.startFlow();
         }
@@ -327,7 +645,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span>Canal Seguro & Confidencial • Psicanálise Clínica</span>
                 </div>
             `;
-            this.interactiveFooter.innerHTML = '';
+            if (this.interactiveFooter) {
+                this.interactiveFooter.innerHTML = '';
+                this.interactiveFooter.style.display = 'flex';
+            }
         }
 
         scrollToBottom() {
@@ -337,7 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     top: this.messagesContainer.scrollHeight,
                     behavior: 'smooth'
                 });
-            }, 50);
+            }, 60);
         }
 
         showTyping() {
@@ -363,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typingEl) typingEl.remove();
         }
 
-        async addBotMessage(htmlContent, delayMs = 550) {
+        async addBotMessage(htmlContent, delayMs = 500) {
             this.showTyping();
             await new Promise(resolve => setTimeout(resolve, delayMs));
             this.hideTyping();
@@ -395,6 +716,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         escapeHtml(str) {
+            if (!str) return '';
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
@@ -405,9 +727,9 @@ document.addEventListener('DOMContentLoaded', () => {
             this.clearMessages();
 
             // Passo 1: Mensagens Iniciais de Acolhimento
-            await this.addBotMessage("Olá. Seja muito bem-vindo(a) ao espaço de acolhimento da <strong>Dra. Fabíola Reis</strong>.", 450);
-            await this.addBotMessage("Aqui, cada sessão é conduzida sob rigoroso <strong>sigilo clínico, escuta atenta e respeito</strong> ao seu momento.", 650);
-            await this.addBotMessage("Como podemos chamar você?", 500);
+            await this.addBotMessage("Olá. Seja muito bem-vindo(a) à <strong>Central Clínica de Autoavaliação & Rastreio</strong> da Dra. Fabíola Reis.", 400);
+            await this.addBotMessage("Aqui, cada sessão e interação é conduzida sob rigoroso <strong>sigilo clínico, escuta atenta e respeito</strong> ao seu momento.", 550);
+            await this.addBotMessage("Como podemos chamar você?", 450);
 
             this.renderNameInput();
         }
@@ -436,194 +758,320 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.interactiveFooter.innerHTML = '';
                 this.addUserMessage(name);
 
-                this.runStep2();
+                this.runTrackSelection();
             });
         }
 
-        async runStep2() {
+        async runTrackSelection() {
             this.state.currentStep = 2;
             const name = this.state.userData.name;
 
-            await this.addBotMessage(`É um prazer receber você, <strong>${this.escapeHtml(name)}</strong>. O que motivou a sua busca pelo processo psicanalítico neste momento?`, 550);
+            await this.addBotMessage(`É um prazer receber você, <strong>${this.escapeHtml(name)}</strong>. Selecione abaixo a trilha que você deseja avaliar agora:`, 450);
 
-            const reasons = [
-                { text: "Ansiedade, Angústia e Esgotamento", icon: "fa-cloud-bolt" },
-                { text: "Conflitos nos Relacionamentos", icon: "fa-heart-crack" },
-                { text: "Autoconhecimento & Transição de Ciclo", icon: "fa-compass" },
-                { text: "Luto, Traumas e Perdas", icon: "fa-leaf" },
-                { text: "Outras Questões Pessoais", icon: "fa-comment-dots" }
-            ];
+            let selectionHtml = `<div class="chat-tracks-selection-wrap">`;
 
-            let chipsHtml = `<div class="chat-chips-grid">`;
-            reasons.forEach(r => {
-                chipsHtml += `
-                    <button type="button" class="chat-chip-btn" data-reason="${r.text}">
-                        <span><i class="fa-solid ${r.icon}" style="margin-right: 6px;"></i> ${r.text}</span>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
+            CLINICAL_TRACK_GROUPS.forEach(group => {
+                selectionHtml += `
+                    <div class="chat-track-block-header">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>${group.title}</span>
+                    </div>
+                    <div class="chat-chips-2col-grid">
                 `;
-            });
-            chipsHtml += `</div>`;
 
-            this.interactiveFooter.innerHTML = chipsHtml;
+                group.tracks.forEach(t => {
+                    selectionHtml += `
+                        <button type="button" class="chat-chip-btn-compact" data-track="${t.id}">
+                            <i class="fa-solid ${t.icon}"></i>
+                            <span>${t.name}</span>
+                        </button>
+                    `;
+                });
+
+                selectionHtml += `</div>`;
+            });
+
+            selectionHtml += `</div>`;
+
+            this.interactiveFooter.innerHTML = selectionHtml;
             this.scrollToBottom();
 
-            this.interactiveFooter.querySelectorAll('.chat-chip-btn').forEach(btn => {
+            this.interactiveFooter.querySelectorAll('.chat-chip-btn-compact').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const reason = btn.getAttribute('data-reason');
-                    this.state.userData.reason = reason;
+                    const trackId = btn.getAttribute('data-track');
+                    let foundTrack = null;
+                    for (const g of CLINICAL_TRACK_GROUPS) {
+                        const match = g.tracks.find(t => t.id === trackId);
+                        if (match) {
+                            foundTrack = match;
+                            break;
+                        }
+                    }
+                    if (!foundTrack) return;
+
+                    this.state.userData.trackKey = foundTrack.id;
+                    this.state.userData.trackName = foundTrack.name;
+                    this.state.userData.trackShortName = foundTrack.shortName;
+                    this.state.userData.answers = [];
+                    this.state.userData.totalScore = 0;
+
                     this.interactiveFooter.innerHTML = '';
-                    this.addUserMessage(reason);
-                    this.runStep3();
+                    this.addUserMessage(foundTrack.name);
+
+                    this.startScreening(foundTrack);
                 });
             });
         }
 
-        async runStep3() {
+        async startScreening(track) {
             this.state.currentStep = 3;
-            await this.addBotMessage("Compreendo perfeitamente. Qual formato de atendimento melhor atende à sua rotina?", 550);
+            await this.addBotMessage(`Iniciaremos o rastreio para a trilha: <strong>${this.escapeHtml(track.name)}</strong>.`, 450);
+            await this.addBotMessage("Apresentaremos <strong>4 afirmações reflexivas</strong>. Selecione a frequência que melhor reflete sua vivência:", 500);
 
-            const options = [
-                {
-                    title: "Online (Atendimento Global / Nacional)",
-                    sub: "Sessões seguras por videochamada no Brasil ou exterior",
-                    icon: "fa-laptop-medical"
-                },
-                {
-                    title: "Presencial no Consultório",
-                    sub: "Rua Dr. Mário Ramos, 122 - Centro, Barra Mansa - RJ",
-                    icon: "fa-couch"
-                }
-            ];
+            this.renderQuestionStep(0, track);
+        }
 
-            let optionsHtml = `<div class="chat-options-stack">`;
-            options.forEach(opt => {
-                optionsHtml += `
-                    <button type="button" class="chat-option-card-btn" data-modality="${opt.title}">
-                        <div class="option-icon-box">
-                            <i class="fa-solid ${opt.icon}"></i>
-                        </div>
-                        <div class="option-text-box">
-                            <span class="option-title">${opt.title}</span>
-                            <span class="option-sub">${opt.sub}</span>
-                        </div>
+        renderQuestionStep(questionIndex, track) {
+            const question = track.questions[questionIndex];
+            const currentNumber = questionIndex + 1;
+            const totalQuestions = track.questions.length;
+            const progressPercent = (currentNumber / totalQuestions) * 100;
+
+            let likertButtonsHtml = '';
+            LIKERT_OPTIONS.forEach(opt => {
+                likertButtonsHtml += `
+                    <button type="button" class="chat-likert-btn" data-score="${opt.score}" data-label="${opt.label}">
+                        <i class="${opt.icon} likert-icon"></i>
+                        <span>${opt.label}</span>
                     </button>
                 `;
             });
-            optionsHtml += `</div>`;
 
-            this.interactiveFooter.innerHTML = optionsHtml;
+            const screeningHtml = `
+                <div class="chat-screening-container">
+                    <div class="chat-progress-header">
+                        <span class="chat-progress-badge"><i class="fa-solid fa-clipboard-list"></i> Autoavaliação Clínica</span>
+                        <span class="chat-progress-count">Pergunta ${currentNumber} de ${totalQuestions}</span>
+                    </div>
+                    <div class="chat-progress-bar-track">
+                        <div class="chat-progress-bar-fill" style="width: ${progressPercent}%;"></div>
+                    </div>
+                    <div class="chat-question-card">
+                        <p class="chat-question-text"><strong>${currentNumber}.</strong> ${this.escapeHtml(question.text)}</p>
+                    </div>
+                    <div class="chat-likert-grid">
+                        ${likertButtonsHtml}
+                    </div>
+                </div>
+            `;
+
+            this.interactiveFooter.innerHTML = screeningHtml;
             this.scrollToBottom();
 
-            this.interactiveFooter.querySelectorAll('.chat-option-card-btn').forEach(btn => {
+            this.interactiveFooter.querySelectorAll('.chat-likert-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const modality = btn.getAttribute('data-modality');
-                    this.state.userData.modality = modality;
+                    const score = parseInt(btn.getAttribute('data-score'), 10);
+                    const label = btn.getAttribute('data-label');
+
+                    // Salva resposta
+                    this.state.userData.answers.push({
+                        questionIndex: questionIndex,
+                        questionText: question.text,
+                        score: score,
+                        label: label,
+                        signal: question.signal
+                    });
+                    this.state.userData.totalScore += score;
+
                     this.interactiveFooter.innerHTML = '';
-                    this.addUserMessage(modality);
-                    this.runStep4();
+                    this.addUserMessage(`[P${currentNumber}] ${label}`);
+
+                    if (questionIndex + 1 < totalQuestions) {
+                        setTimeout(() => {
+                            this.renderQuestionStep(questionIndex + 1, track);
+                        }, 250);
+                    } else {
+                        setTimeout(() => {
+                            this.renderClinicalReport();
+                        }, 350);
+                    }
                 });
             });
         }
 
-        async runStep4() {
+        async renderClinicalReport() {
             this.state.currentStep = 4;
-            await this.addBotMessage("Para organizarmos a sua pré-consulta com exclusividade, qual o melhor turno para o contato da nossa equipe?", 550);
+            const { name, trackName, trackShortName, answers, totalScore } = this.state.userData;
 
-            const shifts = [
-                { name: "Manhã", time: "08h às 12h", icon: "fa-sun" },
-                { name: "Tarde", time: "13h às 18h", icon: "fa-cloud-sun" },
-                { name: "Noite", time: "18h às 21h", icon: "fa-moon" }
-            ];
+            // Limpa o rodapé interativo para dar foco total ao prontuário no feed
+            this.interactiveFooter.innerHTML = '';
+            this.interactiveFooter.style.display = 'none';
 
-            let shiftsHtml = `<div class="chat-shift-grid">`;
-            shifts.forEach(s => {
-                shiftsHtml += `
-                    <button type="button" class="chat-shift-btn" data-shift="${s.name}">
-                        <i class="fa-solid ${s.icon} shift-icon"></i>
-                        <span class="shift-name">${s.name}</span>
-                        <span class="shift-time">${s.time}</span>
-                    </button>
+            await this.addBotMessage(`Autoavaliação concluída, <strong>${this.escapeHtml(name)}</strong>! Geramos a sua síntese clínica preliminar com base nas suas respostas.`, 400);
+
+            // Cálculos de Intensidade e Pontuação Numérica
+            let levelTitle = '';
+            let levelBadgeClass = '';
+            let fillClass = '';
+            let fillPercent = 0;
+            let intensityLevel = '';
+
+            if (totalScore <= 7) {
+                levelTitle = 'Indicadores Leves / Reação Situacional';
+                levelBadgeClass = 'level-low';
+                fillClass = 'fill-low';
+                fillPercent = Math.max(28, Math.round((totalScore / 16) * 100));
+                intensityLevel = 'LEVE';
+            } else if (totalScore <= 12) {
+                levelTitle = 'Indicadores Moderados / Atenção Recomendada';
+                levelBadgeClass = 'level-mid';
+                fillClass = 'fill-mid';
+                fillPercent = Math.round((totalScore / 16) * 100);
+                intensityLevel = 'MODERADO';
+            } else {
+                levelTitle = 'Indicadores Expressivos / Suporte Clínico Prioritário';
+                levelBadgeClass = 'level-high';
+                fillClass = 'fill-high';
+                fillPercent = Math.min(96, Math.round((totalScore / 16) * 100));
+                intensityLevel = 'EXPRESSIVO';
+            }
+
+            // Identificação de Sinais Principais Mapeados
+            const strongAnswers = answers.filter(a => a.score >= 3);
+            let mappedSignals = [];
+
+            if (strongAnswers.length > 0) {
+                mappedSignals = strongAnswers.map(a => a.signal);
+            } else {
+                const sorted = [...answers].sort((a, b) => b.score - a.score);
+                mappedSignals = sorted.slice(0, 2).map(a => a.signal);
+            }
+
+            let signalsHtml = '';
+            mappedSignals.forEach(sig => {
+                signalsHtml += `
+                    <div class="signal-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>${this.escapeHtml(sig)}</span>
+                    </div>
                 `;
             });
-            shiftsHtml += `</div>`;
 
-            this.interactiveFooter.innerHTML = shiftsHtml;
-            this.scrollToBottom();
-
-            this.interactiveFooter.querySelectorAll('.chat-shift-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const shift = btn.getAttribute('data-shift');
-                    this.state.userData.timeSlot = shift;
-                    this.interactiveFooter.innerHTML = '';
-                    this.addUserMessage(shift);
-                    this.runStep5();
-                });
-            });
-        }
-
-        async runStep5() {
-            this.state.currentStep = 5;
-            const { name, reason, modality, timeSlot } = this.state.userData;
-
-            await this.addBotMessage(`Perfeito, <strong>${this.escapeHtml(name)}</strong>! Suas preferências foram organizadas com total confidencialidade.`, 500);
-            await this.addBotMessage("Clique no botão abaixo para concluir seu agendamento direto com a Dra. Fabíola Reis no WhatsApp.", 600);
+            // Formatação do payload WhatsApp (Estritamente sem emojis, padrão documental oficial)
+            const signalsBullets = mappedSignals.length > 0 
+                ? mappedSignals.map(s => `- ${s}`).join('\n')
+                : '- Indicadores dentro da faixa de estabilidade com preservação de autonomia.';
 
             const payloadText = 
-`Olá, Dra. Fabíola Reis!
-Gostaria de solicitar um agendamento de Psicanálise.
+`[MINI PRONTUARIO DE AUTOAVALIACAO CLINICA]
+Instituto / Dra. Fabiola Reis
 
-• Nome: ${name}
-• Motivo Principal: ${reason}
-• Formato: ${modality}
-• Melhor Turno: ${timeSlot}
+PACIENTE: ${name}
+TRILHA AVALIADA: ${trackName}
+INTENSIDADE DE INDICADORES: [${intensityLevel} - Score: ${totalScore}/16]
 
-Aguardo o retorno para verificar a disponibilidade de horários.`;
+--------------------------------------------------
+SINAIS IDENTIFICADOS:
+${signalsBullets}
+
+--------------------------------------------------
+SINTESE:
+Paciente concluiu a triagem pelo portal oficial e solicita agendamento para avaliacao psicanalitica individualizada.
+
+Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar uma consulta.`;
 
             const waLink = `https://wa.me/${this.WHATSAPP_PHONE}?text=${encodeURIComponent(payloadText)}`;
 
-            const closureHtml = `
-                <div class="chat-closure-container">
-                    <div class="chat-summary-card">
-                        <div class="summary-header">
-                            <i class="fa-solid fa-clipboard-check"></i>
-                            <span>Resumo Confidencial</span>
+            const reportCardHtml = `
+                <div class="chat-clinical-report">
+                    <div class="clinical-report-header">
+                        <div class="report-header-title">
+                            <i class="fa-solid fa-notes-medical"></i>
+                            <span>SÍNTESE DE AUTOAVALIAÇÃO</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Nome:</span>
-                            <span class="summary-item-value">${this.escapeHtml(name)}</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Motivo:</span>
-                            <span class="summary-item-value">${this.escapeHtml(reason)}</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Formato:</span>
-                            <span class="summary-item-value">${this.escapeHtml(modality)}</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Melhor Turno:</span>
-                            <span class="summary-item-value">${this.escapeHtml(timeSlot)}</span>
+                        <span class="report-header-badge"><i class="fa-solid fa-shield-halved"></i> Sigilo Clínico</span>
+                    </div>
+
+                    <div class="clinical-patient-axis-row">
+                        <span class="patient-name-tag">Paciente: <strong>${this.escapeHtml(name)}</strong></span>
+                        <div class="axis-badge-tag">
+                            <i class="fa-solid fa-compass"></i>
+                            <span>Trilha: ${this.escapeHtml(trackName)}</span>
                         </div>
                     </div>
 
-                    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="chat-cta-whatsapp-btn" id="chatCtaWhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <span>Concluir Agendamento no WhatsApp</span>
+                    <!-- Termômetro Emocional Dourado -->
+                    <div class="chat-thermometer-box">
+                        <div class="thermometer-info-row">
+                            <span class="thermometer-label">Termômetro de Intensidade:</span>
+                            <span class="thermometer-level-tag ${levelBadgeClass}">${this.escapeHtml(levelTitle)} (${totalScore}/16)</span>
+                        </div>
+                        <div class="thermometer-track">
+                            <div class="thermometer-fill ${fillClass}" style="width: ${fillPercent}%;"></div>
+                        </div>
+                        <div class="thermometer-scale-marks">
+                            <span>Leve</span>
+                            <span>Moderado</span>
+                            <span>Expressivo</span>
+                        </div>
+                    </div>
+
+                    <!-- Sinais Principais Mapeados -->
+                    <div class="chat-signals-box">
+                        <div class="signals-box-title">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>Principais Sinais Identificados:</span>
+                        </div>
+                        <div class="signals-list">
+                            ${signalsHtml}
+                        </div>
+                    </div>
+
+                    <!-- Texto Conceitual Clínico -->
+                    <div class="chat-conceptual-box">
+                        "Suas respostas sugerem padrões comportamentais que exigem escuta atenta e elaboração psicanalítica individualizada."
+                    </div>
+
+                    <!-- Nota Ética Obrigatória -->
+                    <div class="chat-ethical-notice">
+                        <i class="fa-solid fa-shield-halved"></i> Instrumento reflexivo de triagem. Não substitui consulta médica ou avaliação formal.
+                    </div>
+
+                    <!-- CTA Dourado Oficial de Conversão -->
+                    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="chat-share-whatsapp-btn" id="chatShareWhatsappBtn">
+                        <i class="fa-brands fa-whatsapp btn-wa-icon"></i>
+                        <span>COMPARTILHAR RELATÓRIO COM A DRA. FABÍOLA</span>
+                        <i class="fa-solid fa-arrow-right btn-arrow-icon"></i>
                     </a>
 
-                    <button type="button" class="chat-restart-link-btn" id="chatRestartLink">
-                        <i class="fa-solid fa-rotate-left"></i> Alterar preferências
+                    <!-- Botão Secundário para Refazer -->
+                    <button type="button" class="chat-restart-link-btn" id="chatRestartSelfAssessment">
+                        <i class="fa-solid fa-rotate-left"></i> Refazer Autoavaliação / Outra Trilha
                     </button>
                 </div>
             `;
 
-            this.interactiveFooter.innerHTML = closureHtml;
-            this.scrollToBottom();
+            // Injeta o card diretamente no feed de mensagens para rolagem contínua e sem bloqueio
+            const reportRow = document.createElement('div');
+            reportRow.className = 'chat-msg-row bot chat-report-row';
+            reportRow.innerHTML = `
+                <div class="chat-report-wrapper">
+                    ${reportCardHtml}
+                </div>
+            `;
+            this.messagesContainer.appendChild(reportRow);
 
-            const restartBtn = document.getElementById('chatRestartLink');
+            // Auto-scroll progressivo suave garantindo foco na base do container e no botão CTA
+            this.scrollToBottom();
+            setTimeout(() => this.scrollToBottom(), 150);
+            setTimeout(() => this.scrollToBottom(), 450);
+
+            const restartBtn = document.getElementById('chatRestartSelfAssessment');
             if (restartBtn) {
-                restartBtn.addEventListener('click', () => this.reset());
+                restartBtn.addEventListener('click', () => {
+                    this.interactiveFooter.style.display = 'flex';
+                    this.reset();
+                });
             }
         }
     }

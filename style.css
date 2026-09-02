@@ -5104,7 +5104,7 @@ a {
 .chat-messages-container {
     flex: 1;
     overflow-y: auto;
-    padding: 16px;
+    padding: 16px 16px 48px 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -5315,270 +5315,587 @@ a {
     box-shadow: 0 6px 18px rgba(197, 168, 128, 0.35);
 }
 
-/* ── Passo 2: Chips de Motivo da Busca ── */
+/* ── Passo 2: Seletor Compacto em 2 Blocos e Grade de 2 Colunas ── */
+.chat-tracks-selection-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.chat-tracks-selection-wrap::-webkit-scrollbar {
+    width: 4px;
+}
+.chat-tracks-selection-wrap::-webkit-scrollbar-thumb {
+    background: rgba(197, 168, 128, 0.35);
+    border-radius: 4px;
+}
+
+.chat-track-block-header {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #C5A880;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.chat-track-block-header i {
+    font-size: 0.75rem;
+    color: #C5A880;
+}
+
+.chat-chips-2col-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.chat-chip-btn-compact {
+    background: #1C1C20;
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    border-radius: 10px;
+    padding: 8px 10px;
+    color: #FAF4EB;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    min-height: 44px;
+    line-height: 1.25;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.chat-chip-btn-compact:hover {
+    background: linear-gradient(135deg, #C5A880 0%, #B8976C 100%);
+    border-color: #EAD8B1;
+    color: #121214;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(197, 168, 128, 0.35);
+}
+
+.chat-chip-btn-compact i {
+    color: #C5A880;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.chat-chip-btn-compact:hover i {
+    color: #121214;
+}
+
+.chat-chip-btn-compact span {
+    flex: 1;
+}
+
 .chat-chips-grid {
     display: flex;
     flex-direction: column;
     gap: 7px;
-    max-height: 240px;
+    max-height: 270px;
     overflow-y: auto;
-    padding-right: 2px;
+    padding-right: 4px;
+}
+
+.chat-chips-grid::-webkit-scrollbar {
+    width: 4px;
+}
+.chat-chips-grid::-webkit-scrollbar-thumb {
+    background: rgba(197, 168, 128, 0.3);
+    border-radius: 4px;
 }
 
 .chat-chip-btn {
-    background: #1E1E22;
-    border: 1px solid rgba(197, 168, 128, 0.3);
+    background: #1C1C20;
+    border: 1px solid rgba(197, 168, 128, 0.28);
     border-radius: 12px;
-    padding: 9px 13px;
-    color: #EAD8B1;
-    font-size: 0.86rem;
+    padding: 10px 13px;
+    color: #FAF4EB;
+    font-size: 0.85rem;
     font-weight: 500;
     text-align: left;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chat-chip-btn:hover {
-    background: #C5A880;
-    border-color: #D4AF37;
+    background: linear-gradient(135deg, #C5A880 0%, #B8976C 100%);
+    border-color: #EAD8B1;
     color: #121214;
     font-weight: 700;
-    transform: translateX(3px);
-    box-shadow: 0 4px 14px rgba(197, 168, 128, 0.3);
+    transform: translateX(4px);
+    box-shadow: 0 6px 18px rgba(197, 168, 128, 0.35);
 }
 
-.chat-chip-btn i {
+.chat-chip-btn .chip-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.35;
+}
+
+.chat-chip-btn i.chip-icon {
     color: #C5A880;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 0.88rem;
+    flex-shrink: 0;
     transition: all 0.2s ease;
 }
 
-.chat-chip-btn:hover i {
-    opacity: 1;
-    transform: translateX(2px);
+.chat-chip-btn:hover i.chip-icon {
     color: #121214;
+    transform: scale(1.1);
 }
 
-/* ── Passo 3: Opções de Formato (Online / Presencial) ── */
-.chat-options-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.chat-option-card-btn {
-    background: #1E1E22;
-    border: 1px solid rgba(197, 168, 128, 0.3);
-    border-radius: 12px;
-    padding: 12px 14px;
-    color: #EDE8DF;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.25s ease;
-}
-
-.chat-option-card-btn:hover {
-    background: #C5A880;
-    border-color: #D4AF37;
-    color: #121214;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(197, 168, 128, 0.3);
-}
-
-.option-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: #141416;
-    border: 1px solid rgba(197, 168, 128, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #C5A880;
-    font-size: 1rem;
-    flex-shrink: 0;
-    transition: all 0.25s ease;
-}
-
-.chat-option-card-btn:hover .option-icon-box {
-    background: #121214;
-    color: #EAD8B1;
-    border-color: #121214;
-}
-
-.option-text-box {
-    display: flex;
-    flex-direction: column;
-}
-
-.option-title {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #FDFBF7;
-    transition: color 0.25s ease;
-}
-
-.chat-option-card-btn:hover .option-title {
-    color: #121214;
-    font-weight: 700;
-}
-
-.option-sub {
-    font-size: 0.74rem;
-    color: #B8AAA2;
-    transition: color 0.25s ease;
-}
-
-.chat-option-card-btn:hover .option-sub {
-    color: #242220;
-}
-
-/* ── Passo 4: Grade de Turnos (Manhã / Tarde / Noite) ── */
-.chat-shift-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.chat-shift-btn {
-    background: #1E1E22;
-    border: 1px solid rgba(197, 168, 128, 0.3);
-    border-radius: 12px;
-    padding: 10px 6px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.chat-shift-btn:hover {
-    background: #C5A880;
-    border-color: #D4AF37;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(197, 168, 128, 0.3);
-}
-
-.shift-icon {
-    font-size: 1rem;
-    color: #C5A880;
-    transition: color 0.25s ease;
-}
-
-.chat-shift-btn:hover .shift-icon {
-    color: #121214;
-}
-
-.shift-name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #EAD8B1;
-    transition: color 0.25s ease;
-}
-
-.chat-shift-btn:hover .shift-name {
-    color: #121214;
-    font-weight: 700;
-}
-
-.shift-time {
-    font-size: 0.68rem;
+.chat-chip-btn i.chip-arrow {
     color: #8E7E77;
-    transition: color 0.25s ease;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
-.chat-shift-btn:hover .shift-time {
-    color: #242220;
+.chat-chip-btn:hover i.chip-arrow {
+    color: #121214;
+    transform: translateX(3px);
 }
 
-/* ── Passo 5: Card de Fechamento & Conversão WhatsApp ── */
-.chat-closure-container {
+/* ── Passo 3: Motor Dinâmico de Perguntas (Escala Likert Visual) ── */
+.chat-screening-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    animation: chatMsgFadeIn 0.35s ease forwards;
 }
 
-.chat-summary-card {
-    background: #1E1E22;
-    border: 1px solid rgba(197, 168, 128, 0.3);
+.chat-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.chat-progress-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #C5A880;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.chat-progress-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #FAF4EB;
+    background: rgba(197, 168, 128, 0.15);
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.chat-progress-bar-track {
+    width: 100%;
+    height: 5px;
+    background: #18181B;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.chat-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #C5A880 0%, #D4AF37 50%, #EAD8B1 100%);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-question-card {
+    background: #1C1C20;
+    border: 1px solid rgba(197, 168, 128, 0.25);
     border-radius: 14px;
     padding: 12px 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.chat-question-text {
+    color: #FDFBF7;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Grade de Botões da Escala Likert */
+.chat-likert-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.chat-likert-btn {
+    background: #18181C;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    border-radius: 11px;
+    padding: 11px 8px;
+    color: #FAF4EB;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.chat-likert-btn .likert-icon {
+    font-size: 0.72rem;
+    color: #C5A880;
+    opacity: 0.8;
+}
+
+.chat-likert-btn:hover {
+    background: linear-gradient(135deg, #C5A880 0%, #D4AF37 100%);
+    border-color: #EAD8B1;
+    color: #121214;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(197, 168, 128, 0.35);
+}
+
+.chat-likert-btn:hover .likert-icon {
+    color: #121214;
+    opacity: 1;
+}
+
+.chat-likert-btn:active {
+    transform: scale(0.97);
+}
+
+/* ── Passo 4: Tela de Síntese & Termômetro Emocional (Prontuário Moderno) ── */
+.chat-report-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 6px 0 16px 0;
+    display: flex;
+    justify-content: center;
+    animation: chatMsgFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.chat-report-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.chat-clinical-report {
+    background: linear-gradient(165deg, #1C1C20 0%, #161619 55%, #121214 100%);
+    border: 1px solid rgba(197, 168, 128, 0.35);
+    border-radius: 18px;
+    padding: 18px 16px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(234, 216, 177, 0.18);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.clinical-report-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+    padding-bottom: 10px;
+}
+
+.report-header-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #C5A880;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.report-header-badge {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34D399;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.clinical-patient-axis-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.patient-name-tag {
+    font-size: 0.8rem;
+    color: #B8AAA2;
+}
+
+.patient-name-tag strong {
+    color: #FAF4EB;
+    font-weight: 700;
+}
+
+.axis-badge-tag {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #EAD8B1;
+    background: rgba(197, 168, 128, 0.12);
+    border: 1px solid rgba(197, 168, 128, 0.25);
+    border-radius: 9px;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+/* Termômetro Emocional Dourado */
+.chat-thermometer-box {
+    background: #121214;
+    border: 1px solid rgba(197, 168, 128, 0.24);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.thermometer-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.thermometer-label {
+    font-size: 0.75rem;
+    color: #8E7E77;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.thermometer-level-tag {
+    font-size: 0.77rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.thermometer-level-tag.level-low {
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    color: #6EE7B7;
+}
+
+.thermometer-level-tag.level-mid {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #FCD34D;
+}
+
+.thermometer-level-tag.level-high {
+    background: rgba(239, 68, 68, 0.18);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #FCA5A5;
+}
+
+.thermometer-track {
+    width: 100%;
+    height: 10px;
+    background: #1E1E22;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.thermometer-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.thermometer-fill.fill-low {
+    background: linear-gradient(90deg, #10B981 0%, #C5A880 100%);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.thermometer-fill.fill-mid {
+    background: linear-gradient(90deg, #C5A880 0%, #F59E0B 100%);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
+}
+
+.thermometer-fill.fill-high {
+    background: linear-gradient(90deg, #F59E0B 0%, #D4AF37 40%, #EF4444 100%);
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.5);
+}
+
+.thermometer-scale-marks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.67rem;
+    color: #8E7E77;
+    padding: 0 2px;
+}
+
+/* Sinais Clínicos Identificados */
+.chat-signals-box {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.signals-box-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #C5A880;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.signals-list {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.summary-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: #C5A880;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    border-bottom: 1px solid rgba(197, 168, 128, 0.15);
-    padding-bottom: 5px;
-    margin-bottom: 2px;
-}
-
-.summary-item {
+.signal-item {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
     gap: 8px;
-    font-size: 0.81rem;
-    line-height: 1.35;
-}
-
-.summary-item-label {
-    color: #8E7E77;
-    white-space: nowrap;
-}
-
-.summary-item-value {
+    font-size: 0.79rem;
+    line-height: 1.38;
     color: #FAF4EB;
-    font-weight: 600;
-    text-align: right;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(197, 168, 128, 0.16);
+    border-radius: 8px;
+    padding: 6px 9px;
 }
 
-.chat-cta-whatsapp-btn {
+.signal-item i {
+    color: #C5A880;
+    font-size: 0.74rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Texto Conceitual */
+.chat-conceptual-box {
+    font-size: 0.81rem;
+    line-height: 1.48;
+    color: #EDE8DF;
+    font-style: italic;
+    background: rgba(197, 168, 128, 0.07);
+    border-left: 3px solid #C5A880;
+    border-radius: 0 8px 8px 0;
+    padding: 9px 11px;
+}
+
+/* Nota Ética Obrigatória */
+.chat-ethical-notice {
+    font-size: 0.72rem;
+    color: #C5A880;
+    background: rgba(197, 168, 128, 0.08);
+    border: 1px dashed rgba(197, 168, 128, 0.3);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    line-height: 1.38;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 6px;
+}
+
+/* Botão de Compartilhar Relatório no WhatsApp */
+.chat-share-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
     background: linear-gradient(135deg, #C5A880 0%, #D4AF37 50%, #B39368 100%);
     color: #121214;
     border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 0.95rem;
-    font-weight: 700;
+    padding: 14px 16px;
+    font-size: 0.88rem;
+    font-weight: 800;
     text-decoration: none;
-    box-shadow: 0 8px 25px rgba(197, 168, 128, 0.35), 0 0 15px rgba(212, 175, 55, 0.2);
+    letter-spacing: 0.3px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(197, 168, 128, 0.45), 0 0 15px rgba(212, 175, 55, 0.3);
     cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    line-height: 1.3;
+    margin-top: 2px;
 }
 
-.chat-cta-whatsapp-btn:hover {
+.chat-share-whatsapp-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5);
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.6);
     filter: brightness(1.08);
+    color: #121214;
 }
 
-.chat-cta-whatsapp-btn i {
-    font-size: 1.35rem;
+.chat-share-whatsapp-btn i.btn-wa-icon {
+    font-size: 1.22rem;
+    flex-shrink: 0;
+}
+
+.chat-share-whatsapp-btn i.btn-arrow-icon {
+    font-size: 0.86rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.chat-share-whatsapp-btn:hover i.btn-arrow-icon {
+    transform: translateX(3px);
 }
 
 .chat-restart-link-btn {
@@ -5588,8 +5905,13 @@ a {
     font-size: 0.78rem;
     text-align: center;
     cursor: pointer;
-    padding: 4px;
+    padding: 6px;
     transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: -4px;
 }
 
 .chat-restart-link-btn:hover {
@@ -5679,26 +6001,57 @@ a {
 
     .acolhimento-modal-window {
         max-width: 100%;
-        height: 100dvh;
-        max-height: 100dvh;
-        border-radius: 0;
-        border: none;
+        height: 90vh;
+        max-height: 90dvh;
+        border-radius: 20px 20px 0 0;
+        border: 1px solid rgba(197, 168, 128, 0.3);
+        border-bottom: none;
     }
 
     .chat-modal-header {
         padding: 12px 14px;
-        border-radius: 0;
+        border-radius: 20px 20px 0 0;
     }
 
     .chat-messages-container {
-        padding: 12px 12px 80px 12px;
+        padding: 12px 12px 14px 12px;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .chat-interactive-footer {
         padding: 12px;
+        max-height: 58vh;
+        overflow-y: auto;
         position: sticky;
         bottom: 0;
         z-index: 10;
+    }
+
+    .chat-chips-2col-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+    .chat-chip-btn-compact {
+        padding: 6px 8px;
+        font-size: 0.72rem;
+        gap: 6px;
+        min-height: 40px;
+    }
+
+    .chat-chip-btn-compact i {
+        font-size: 0.78rem;
+    }
+
+    .chat-likert-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+
+    .chat-likert-btn {
+        padding: 10px 6px;
+        font-size: 0.79rem;
     }
 }
 
