@@ -5372,7 +5372,7 @@ a {
     cursor: pointer;
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    min-height: 44px;
+    min-height: 46px;
     line-height: 1.25;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -5397,8 +5397,38 @@ a {
     color: #121214;
 }
 
-.chat-chip-btn-compact span {
+.chat-chip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     flex: 1;
+    min-width: 0;
+}
+
+.chat-chip-title {
+    line-height: 1.25;
+}
+
+.chat-chip-badge-alert {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 2px 6px;
+    border-radius: 9999px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #FCD34D;
+    width: fit-content;
+    transition: all 0.2s ease;
+}
+
+.chat-chip-btn-compact:hover .chat-chip-badge-alert {
+    background: rgba(18, 18, 20, 0.25);
+    border-color: rgba(18, 18, 20, 0.4);
+    color: #121214;
 }
 
 .chat-chips-grid {
@@ -5593,6 +5623,58 @@ a {
 
 .chat-likert-btn:active {
     transform: scale(0.97);
+}
+
+/* Grade de Opções Customizadas (ex: Burnout & Esgotamento) */
+.chat-custom-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.chat-option-btn-custom {
+    background: #18181C;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #FAF4EB;
+    font-size: 0.83rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.35;
+}
+
+.chat-option-btn-custom .likert-icon {
+    font-size: 0.82rem;
+    color: #C5A880;
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+.chat-option-btn-custom:hover {
+    background: linear-gradient(135deg, #C5A880 0%, #D4AF37 100%);
+    border-color: #EAD8B1;
+    color: #121214;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(197, 168, 128, 0.35);
+}
+
+.chat-option-btn-custom:hover .likert-icon {
+    color: #121214;
+    opacity: 1;
+}
+
+.chat-option-btn-custom:active {
+    transform: scale(0.98);
 }
 
 /* ── Passo 4: Tela de Síntese & Termômetro Emocional (Prontuário Moderno) ── */

@@ -222,6 +222,61 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Queixas Clínicas Gerais',
             tracks: [
                 {
+                    id: 'burnout',
+                    title: 'Síndrome de Burnout & Esgotamento',
+                    name: 'Síndrome de Burnout & Esgotamento',
+                    shortName: 'Síndrome de Burnout & Esgotamento',
+                    badge: 'Psicossomática e Carreira',
+                    description: 'Investigação de exaustão profunda, desconexão de propósito e sobrecarga contínua.',
+                    icon: 'fa-heart-pulse',
+                    questions: [
+                        {
+                            id: 'b1',
+                            question: 'Você sente um cansaço crônico que persiste mesmo após finais de semana ou períodos de repouso?',
+                            text: 'Você sente um cansaço crônico que persiste mesmo após finais de semana ou períodos de repouso?',
+                            summary: 'Cansaço crônico persistente',
+                            options: [
+                                { label: 'Raramente ou sob controle', score: 0 },
+                                { label: 'Frequentemente, acordo já exausto(a)', score: 2 },
+                                { label: 'Constante, sinto esgotamento físico e mental extremo', score: 3 }
+                            ]
+                        },
+                        {
+                            id: 'b2',
+                            question: 'Percebe uma perda de sentido no trabalho, acompanhada de sentimentos de cinismo, indiferença ou frustração?',
+                            text: 'Percebe uma perda de sentido no trabalho, acompanhada de sentimentos de cinismo, indiferença ou frustração?',
+                            summary: 'Perda de sentido e indiferença no trabalho',
+                            options: [
+                                { label: 'Ainda encontro motivação na maior parte do tempo', score: 0 },
+                                { label: 'Faço as tarefas no piloto automático, sem entusiasmo', score: 2 },
+                                { label: 'Sinto total vazio e desapego do que antes fazia sentido', score: 3 }
+                            ]
+                        },
+                        {
+                            id: 'b3',
+                            question: 'Tem apresentado manifestações físicas frequentes (dores de cabeça, alterações no sono, tensão muscular, problemas gastrointestinais)?',
+                            text: 'Tem apresentado manifestações físicas frequentes (dores de cabeça, alterações no sono, tensão muscular, problemas gastrointestinais)?',
+                            summary: 'Manifestações físicas e psicossomáticas',
+                            options: [
+                                { label: 'Não tenho sintomas físicos associados', score: 0 },
+                                { label: 'Sintomas pontuais em dias de pico de estresse', score: 1 },
+                                { label: 'Sintomas corporais frequentes e debilitantes', score: 3 }
+                            ]
+                        },
+                        {
+                            id: 'b4',
+                            question: 'Sente que está abrindo mão excessivamente de limites pessoais, descanso e lazer para dar conta de demandas externas?',
+                            text: 'Sente que está abrindo mão excessivamente de limites pessoais, descanso e lazer para dar conta de demandas externas?',
+                            summary: 'Renúncia de limites e descanso',
+                            options: [
+                                { label: 'Consigo preservar meu tempo e dizer não', score: 0 },
+                                { label: 'Tenho dificuldade de pausar e me sinto culpado(a) ao parar', score: 2 },
+                                { label: 'Vivo em renúncia contínua de mim mesmo(a) em prol do trabalho', score: 3 }
+                            ]
+                        }
+                    ]
+                },
+                {
                     id: 'ansiedade',
                     name: 'Ansiedade & Angústia',
                     shortName: 'Ansiedade & Angústia',
@@ -783,7 +838,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectionHtml += `
                         <button type="button" class="chat-chip-btn-compact" data-track="${t.id}">
                             <i class="fa-solid ${t.icon}"></i>
-                            <span>${t.name}</span>
+                            <div class="chat-chip-content">
+                                <span class="chat-chip-title">${t.name}</span>
+                                ${t.badge ? `<span class="chat-chip-badge-alert">${t.badge}</span>` : ''}
+                            </div>
                         </button>
                     `;
                 });
@@ -826,7 +884,10 @@ document.addEventListener('DOMContentLoaded', () => {
         async startScreening(track) {
             this.state.currentStep = 3;
             await this.addBotMessage(`Iniciaremos o rastreio para a trilha: <strong>${this.escapeHtml(track.name)}</strong>.`, 450);
-            await this.addBotMessage("Apresentaremos <strong>4 afirmações reflexivas</strong>. Selecione a frequência que melhor reflete sua vivência:", 500);
+            if (track.description) {
+                await this.addBotMessage(`<em>${this.escapeHtml(track.description)}</em>`, 400);
+            }
+            await this.addBotMessage("Apresentaremos <strong>4 afirmações reflexivas</strong>. Selecione a resposta que melhor reflete sua vivência:", 500);
 
             this.renderQuestionStep(0, track);
         }
@@ -836,13 +897,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentNumber = questionIndex + 1;
             const totalQuestions = track.questions.length;
             const progressPercent = (currentNumber / totalQuestions) * 100;
+            const isCustomOptions = Array.isArray(question.options) && question.options.length > 0;
+            const options = isCustomOptions ? question.options : LIKERT_OPTIONS;
 
-            let likertButtonsHtml = '';
-            LIKERT_OPTIONS.forEach(opt => {
-                likertButtonsHtml += `
-                    <button type="button" class="chat-likert-btn" data-score="${opt.score}" data-label="${opt.label}">
-                        <i class="${opt.icon} likert-icon"></i>
-                        <span>${opt.label}</span>
+            let optionsButtonsHtml = '';
+            options.forEach(opt => {
+                const optIcon = opt.icon || (opt.score === 0 ? 'fa-regular fa-circle' : (opt.score === 1 || opt.score === 2) ? 'fa-regular fa-circle-dot' : 'fa-solid fa-circle-check');
+                optionsButtonsHtml += `
+                    <button type="button" class="${isCustomOptions ? 'chat-option-btn-custom' : 'chat-likert-btn'}" data-score="${opt.score}" data-label="${this.escapeHtml(opt.label)}">
+                        <i class="${optIcon} likert-icon"></i>
+                        <span>${this.escapeHtml(opt.label)}</span>
                     </button>
                 `;
             });
@@ -857,10 +921,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="chat-progress-bar-fill" style="width: ${progressPercent}%;"></div>
                     </div>
                     <div class="chat-question-card">
-                        <p class="chat-question-text"><strong>${currentNumber}.</strong> ${this.escapeHtml(question.text)}</p>
+                        <p class="chat-question-text"><strong>${currentNumber}.</strong> ${this.escapeHtml(question.question || question.text)}</p>
                     </div>
-                    <div class="chat-likert-grid">
-                        ${likertButtonsHtml}
+                    <div class="${isCustomOptions ? 'chat-custom-options-grid' : 'chat-likert-grid'}">
+                        ${optionsButtonsHtml}
                     </div>
                 </div>
             `;
@@ -868,7 +932,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.interactiveFooter.innerHTML = screeningHtml;
             this.scrollToBottom();
 
-            this.interactiveFooter.querySelectorAll('.chat-likert-btn').forEach(btn => {
+            const btnSelector = isCustomOptions ? '.chat-option-btn-custom' : '.chat-likert-btn';
+            this.interactiveFooter.querySelectorAll(btnSelector).forEach(btn => {
                 btn.addEventListener('click', () => {
                     const score = parseInt(btn.getAttribute('data-score'), 10);
                     const label = btn.getAttribute('data-label');
@@ -876,10 +941,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Salva resposta
                     this.state.userData.answers.push({
                         questionIndex: questionIndex,
-                        questionText: question.text,
+                        questionId: question.id || `q${currentNumber}`,
+                        questionText: question.question || question.text,
+                        questionSummary: question.summary || question.question || question.text,
                         score: score,
                         label: label,
-                        signal: question.signal
+                        signal: question.signal || `${question.summary || question.question || question.text}: ${label}`
                     });
                     this.state.userData.totalScore += score;
 
@@ -901,7 +968,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         async renderClinicalReport() {
             this.state.currentStep = 4;
-            const { name, trackName, trackShortName, answers, totalScore } = this.state.userData;
+            const { name, trackKey, trackName, trackShortName, answers, totalScore } = this.state.userData;
+            const isBurnout = (trackKey === 'burnout');
+            const maxScore = isBurnout ? 12 : 16;
 
             // Limpa o rodapé interativo para dar foco total ao prontuário no feed
             this.interactiveFooter.innerHTML = '';
@@ -916,53 +985,117 @@ document.addEventListener('DOMContentLoaded', () => {
             let fillPercent = 0;
             let intensityLevel = '';
 
-            if (totalScore <= 7) {
-                levelTitle = 'Indicadores Leves / Reação Situacional';
-                levelBadgeClass = 'level-low';
-                fillClass = 'fill-low';
-                fillPercent = Math.max(28, Math.round((totalScore / 16) * 100));
-                intensityLevel = 'LEVE';
-            } else if (totalScore <= 12) {
-                levelTitle = 'Indicadores Moderados / Atenção Recomendada';
-                levelBadgeClass = 'level-mid';
-                fillClass = 'fill-mid';
-                fillPercent = Math.round((totalScore / 16) * 100);
-                intensityLevel = 'MODERADO';
+            if (isBurnout) {
+                if (totalScore <= 3) {
+                    levelTitle = 'Nível Leve / Preventivo';
+                    levelBadgeClass = 'level-low';
+                    fillClass = 'fill-low';
+                    fillPercent = Math.max(25, Math.round((totalScore / 12) * 100));
+                    intensityLevel = 'Nível Leve / Preventivo';
+                } else if (totalScore <= 7) {
+                    levelTitle = 'Nível Moderado / Alerta';
+                    levelBadgeClass = 'level-mid';
+                    fillClass = 'fill-mid';
+                    fillPercent = Math.round((totalScore / 12) * 100);
+                    intensityLevel = 'Nível Moderado / Alerta';
+                } else {
+                    levelTitle = 'Nível Alto / Atenção Clínica Imediata';
+                    levelBadgeClass = 'level-high';
+                    fillClass = 'fill-high';
+                    fillPercent = Math.min(98, Math.round((totalScore / 12) * 100));
+                    intensityLevel = 'Nível Alto / Atenção Clínica Imediata';
+                }
             } else {
-                levelTitle = 'Indicadores Expressivos / Suporte Clínico Prioritário';
-                levelBadgeClass = 'level-high';
-                fillClass = 'fill-high';
-                fillPercent = Math.min(96, Math.round((totalScore / 16) * 100));
-                intensityLevel = 'EXPRESSIVO';
+                if (totalScore <= 7) {
+                    levelTitle = 'Indicadores Leves / Reação Situacional';
+                    levelBadgeClass = 'level-low';
+                    fillClass = 'fill-low';
+                    fillPercent = Math.max(28, Math.round((totalScore / 16) * 100));
+                    intensityLevel = 'LEVE';
+                } else if (totalScore <= 12) {
+                    levelTitle = 'Indicadores Moderados / Atenção Recomendada';
+                    levelBadgeClass = 'level-mid';
+                    fillClass = 'fill-mid';
+                    fillPercent = Math.round((totalScore / 16) * 100);
+                    intensityLevel = 'MODERADO';
+                } else {
+                    levelTitle = 'Indicadores Expressivos / Suporte Clínico Prioritário';
+                    levelBadgeClass = 'level-high';
+                    fillClass = 'fill-high';
+                    fillPercent = Math.min(96, Math.round((totalScore / 16) * 100));
+                    intensityLevel = 'EXPRESSIVO';
+                }
             }
 
             // Identificação de Sinais Principais Mapeados
-            const strongAnswers = answers.filter(a => a.score >= 3);
-            let mappedSignals = [];
-
-            if (strongAnswers.length > 0) {
-                mappedSignals = strongAnswers.map(a => a.signal);
+            let signalsHtml = '';
+            if (isBurnout) {
+                answers.forEach(a => {
+                    signalsHtml += `
+                        <div class="signal-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span><strong>${this.escapeHtml(a.questionSummary)}:</strong> ${this.escapeHtml(a.label)} (${a.score} pts)</span>
+                        </div>
+                    `;
+                });
             } else {
-                const sorted = [...answers].sort((a, b) => b.score - a.score);
-                mappedSignals = sorted.slice(0, 2).map(a => a.signal);
+                const strongAnswers = answers.filter(a => a.score >= 3);
+                let mappedSignals = [];
+
+                if (strongAnswers.length > 0) {
+                    mappedSignals = strongAnswers.map(a => a.signal);
+                } else {
+                    const sorted = [...answers].sort((a, b) => b.score - a.score);
+                    mappedSignals = sorted.slice(0, 2).map(a => a.signal);
+                }
+
+                mappedSignals.forEach(sig => {
+                    signalsHtml += `
+                        <div class="signal-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>${this.escapeHtml(sig)}</span>
+                        </div>
+                    `;
+                });
             }
 
-            let signalsHtml = '';
-            mappedSignals.forEach(sig => {
-                signalsHtml += `
-                    <div class="signal-item">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span>${this.escapeHtml(sig)}</span>
-                    </div>
-                `;
-            });
+            // Formatação do payload WhatsApp (Conforme especificado pelo usuário)
+            let payloadText = '';
+            if (isBurnout) {
+                const burnoutAnswersSummary = answers.map(a => `- ${a.questionSummary}: ${a.label} (${a.score} pts)`).join('\n');
+                payloadText = 
+`📋 NOVA TRIAGEM CLÍNICA RECEBIDA
+Instituto / Dra. Fabíola Reis
 
-            // Formatação do payload WhatsApp (Estritamente sem emojis, padrão documental oficial)
-            const signalsBullets = mappedSignals.length > 0 
-                ? mappedSignals.map(s => `- ${s}`).join('\n')
-                : '- Indicadores dentro da faixa de estabilidade com preservação de autonomia.';
+PACIENTE: ${name}
+EIXO: Síndrome de Burnout & Esgotamento
+MAPEAMENTO: ${intensityLevel} (Pontuação: ${totalScore}/12)
 
-            const payloadText = 
+--------------------------------------------------
+RESPOSTAS IDENTIFICADAS:
+${burnoutAnswersSummary}
+
+--------------------------------------------------
+SÍNTESE:
+Paciente concluiu a triagem de Síndrome de Burnout & Esgotamento pelo portal oficial e solicita agendamento para avaliação psicanalítica individualizada.
+
+Olá, Dra. Fabíola! Concluí minha autoavaliação de Burnout no seu site e gostaria de agendar uma consulta.`;
+            } else {
+                const strongAnswers = answers.filter(a => a.score >= 3);
+                let mappedSignals = [];
+
+                if (strongAnswers.length > 0) {
+                    mappedSignals = strongAnswers.map(a => a.signal);
+                } else {
+                    const sorted = [...answers].sort((a, b) => b.score - a.score);
+                    mappedSignals = sorted.slice(0, 2).map(a => a.signal);
+                }
+
+                const signalsBullets = mappedSignals.length > 0 
+                    ? mappedSignals.map(s => `- ${s}`).join('\n')
+                    : '- Indicadores dentro da faixa de estabilidade com preservação de autonomia.';
+
+                payloadText = 
 `[MINI PRONTUARIO DE AUTOAVALIACAO CLINICA]
 Instituto / Dra. Fabiola Reis
 
@@ -979,6 +1112,7 @@ SINTESE:
 Paciente concluiu a triagem pelo portal oficial e solicita agendamento para avaliacao psicanalitica individualizada.
 
 Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar uma consulta.`;
+            }
 
             const waLink = `https://wa.me/${this.WHATSAPP_PHONE}?text=${encodeURIComponent(payloadText)}`;
 
@@ -995,7 +1129,7 @@ Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar
                     <div class="clinical-patient-axis-row">
                         <span class="patient-name-tag">Paciente: <strong>${this.escapeHtml(name)}</strong></span>
                         <div class="axis-badge-tag">
-                            <i class="fa-solid fa-compass"></i>
+                            <i class="fa-solid ${isBurnout ? 'fa-heart-pulse' : 'fa-compass'}"></i>
                             <span>Trilha: ${this.escapeHtml(trackName)}</span>
                         </div>
                     </div>
@@ -1004,15 +1138,21 @@ Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar
                     <div class="chat-thermometer-box">
                         <div class="thermometer-info-row">
                             <span class="thermometer-label">Termômetro de Intensidade:</span>
-                            <span class="thermometer-level-tag ${levelBadgeClass}">${this.escapeHtml(levelTitle)} (${totalScore}/16)</span>
+                            <span class="thermometer-level-tag ${levelBadgeClass}">${this.escapeHtml(levelTitle)} (${totalScore}/${maxScore})</span>
                         </div>
                         <div class="thermometer-track">
                             <div class="thermometer-fill ${fillClass}" style="width: ${fillPercent}%;"></div>
                         </div>
                         <div class="thermometer-scale-marks">
-                            <span>Leve</span>
-                            <span>Moderado</span>
-                            <span>Expressivo</span>
+                            ${isBurnout ? `
+                                <span>Leve (0-3)</span>
+                                <span>Moderado (4-7)</span>
+                                <span>Alto (8-12)</span>
+                            ` : `
+                                <span>Leve</span>
+                                <span>Moderado</span>
+                                <span>Expressivo</span>
+                            `}
                         </div>
                     </div>
 
@@ -1020,7 +1160,7 @@ Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar
                     <div class="chat-signals-box">
                         <div class="signals-box-title">
                             <i class="fa-solid fa-list-check"></i>
-                            <span>Principais Sinais Identificados:</span>
+                            <span>${isBurnout ? 'Respostas Clínicas Assinaladas:' : 'Principais Sinais Identificados:'}</span>
                         </div>
                         <div class="signals-list">
                             ${signalsHtml}
@@ -1029,7 +1169,9 @@ Ola, Dra. Fabiola! Conclui minha autoavaliacao no seu site e gostaria de agendar
 
                     <!-- Texto Conceitual Clínico -->
                     <div class="chat-conceptual-box">
-                        "Suas respostas sugerem padrões comportamentais que exigem escuta atenta e elaboração psicanalítica individualizada."
+                        ${isBurnout 
+                            ? '"Suas respostas indicam sobrecarga psicossomática e exaustão que exigem escuta clínica cuidadosa e resgate de limites saudáveis."' 
+                            : '"Suas respostas sugerem padrões comportamentais que exigem escuta atenta e elaboração psicanalítica individualizada."'}
                     </div>
 
                     <!-- Nota Ética Obrigatória -->
